@@ -4,8 +4,6 @@ namespace Tests\Feature\SuperAdmin;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -40,18 +38,18 @@ class AuthenticationTest extends TestCase
     }
 
 public function test_super_admin_can_login_with_username()
-    {
-        $this->withoutExceptionHandling();
+{
+    $this->withoutExceptionHandling();
 
-        $superAdmin = $this->superAdmin();
+    $superAdmin = $this->superAdmin();
 
-        $response = $this->post(route('verify-credentials'), [
-            'identifier' => $superAdmin->username,
-            'password' => 'password',
-        ]);
+    $response = $this->post(route('verify-credentials'), [
+        'identifier' => $superAdmin->username,
+        'password' => 'password',
+    ]);
 
-        $response->assertRedirect(route('super-admin.dashboard'));
+    $response->assertRedirect(route('super-admin.dashboard'));
 
-        $this->assertAuthenticatedAs($superAdmin);
-    }
+    $this->assertAuthenticatedAs($superAdmin);
+}
 }
