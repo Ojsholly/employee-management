@@ -33,7 +33,7 @@ class RoleSeeder extends Seeder
 
         $this->superAdmin($permissions);
 
-        $adminPermissions = collect($permissions)->except(0, 1, 2, 3, 6, 7)->toArray();               // Remove all the super admin permissions from the admin permissions
+        $adminPermissions = collect($permissions)->except(0, 1, 2, 3, 6, 7, 10, 11)->toArray();               // Remove all the super admin permissions from the admin permissions
 
         $this->admin($adminPermissions);
 
@@ -55,9 +55,9 @@ class RoleSeeder extends Seeder
         $tables = ['roles', 'permissions', 'role_has_permissions', 'model_has_roles', 'model_has_permissions'];
 
         foreach ($tables as $table) {
-            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            config('database.default') == 'mysql' ? DB::statement('SET FOREIGN_KEY_CHECKS=0;') : DB::statement('PRAGMA foreign_keys = OFF');
             DB::table($table)->truncate();
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            config('database.default') == 'mysql' ? DB::statement('SET FOREIGN_KEY_CHECKS=1;') : DB::statement('PRAGMA foreign_keys = ON');
         }
     }
 
