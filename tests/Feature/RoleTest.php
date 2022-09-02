@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -29,7 +27,7 @@ class RoleTest extends TestCase
         $user->assignRole($role);
         $this->assertDatabaseHas('model_has_roles', [
             'model_id' => $user->id,
-            'role_id' => $role->id
+            'role_id' => $role->id,
         ]);
     }
 
@@ -42,42 +40,42 @@ class RoleTest extends TestCase
 
         $this->assertDatabaseHas('model_has_roles', [
             'model_id' => $user->id,
-            'role_id' => $role->id
+            'role_id' => $role->id,
         ]);
 
         $user->removeRole($role);
 
         $this->assertDatabaseMissing('model_has_roles', [
             'model_id' => $user->id,
-            'role_id' => $role->id
+            'role_id' => $role->id,
         ]);
     }
 
     public function test_super_admin_role_is_created_by_default()
     {
         $this->assertDatabaseHas('roles', [
-            'name' => 'super-admin'
+            'name' => 'super-admin',
         ]);
     }
 
     public function test_admin_role_is_created_by_default()
     {
         $this->assertDatabaseHas('roles', [
-            'name' => 'admin'
+            'name' => 'admin',
         ]);
     }
 
     public function test_company_role_is_created_by_default()
     {
         $this->assertDatabaseHas('roles', [
-            'name' => 'company'
+            'name' => 'company',
         ]);
     }
 
     public function test_employee_role_is_created_by_default()
     {
         $this->assertDatabaseHas('roles', [
-            'name' => 'employee'
+            'name' => 'employee',
         ]);
     }
 

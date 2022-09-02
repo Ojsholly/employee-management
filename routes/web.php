@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::controller(AuthController::class)->middleware('guest')->group(function () {
+    Route::view('login', 'login')->name('login');
+    Route::post('verify-credentials', [AuthController::class, 'login'])->name('verify-credentials');
 });

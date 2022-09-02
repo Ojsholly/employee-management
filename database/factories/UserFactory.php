@@ -96,7 +96,7 @@ class UserFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (User $user) {
-            if ($user->username == "Ojsholly" || $user->email == "superadmin@admin.com") {
+            if ($user->username == 'Ojsholly' || $user->email == 'superadmin@admin.com') {
                 $user->assignRole('super-admin');
             }
         });
