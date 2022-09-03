@@ -74,9 +74,9 @@
                                                 <td>
                                                     <div class="action">
                                                         @can('update company account')
-                                                            <button class="text-warning edit" data-id="{{ $company->uuid }}">
+                                                            <a href="{{ route(auth()->user()->getRoleNames()->first().".companies.edit", ['company' => $company->uuid]) }}" class="text-warning">
                                                                 <i class="lni lni-pencil"></i>
-                                                            </button>
+                                                            </a>
                                                         @endcan
                                                         @can('delete company account')
                                                             <button class="text-danger delete" data-id="{{ $company->uuid }}">

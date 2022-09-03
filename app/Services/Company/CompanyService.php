@@ -50,6 +50,25 @@ class CompanyService extends Service
     }
 
     /**
+     * @param array $data
+     * @param string $uuid
+     * @return Company
+     * @throws Throwable
+     */
+    public function updateCompany(array $data, string $uuid): Company
+    {
+        $company = $this->getCompany($uuid);
+
+        $userData = collect($data)->only('username')->toArray();
+        $company->user()->update($userData);
+
+        $companyData = collect($data)->only(['name', 'email', 'website'])->toArray();
+        $company->update($companyData);
+
+        return $company;
+    }
+
+    /**
      * @param  string  $uuid
      * @return bool
      *

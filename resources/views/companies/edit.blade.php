@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'Create Company account')
+@section('title', 'Edit '.$company->username.' account')
 
 @section('content')
     <!-- ========== tab components start ========== -->
@@ -11,7 +11,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="title mb-30">
-                            <h2>Create company account.</h2>
+                            <h2>Edit company account.</h2>
                         </div>
                     </div>
                 </div>
@@ -44,34 +44,35 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form action="{{ route(auth()->user()->getRoleNames()->first().'.companies.store') }}" method="POST">
+                            <form action="{{ route(auth()->user()->getRoleNames()->first().'.companies.update', ['company' => $company->uuid]) }}" method="POST">
                                 @csrf
+                                @method('PUT')
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="input-style-1">
                                             <label>Name</label>
-                                            <input type="text" value="{{ old('name') }}" name="name" required placeholder="{{ fake()->company." ".fake()->companySuffix }}" />
+                                            <input type="text" value="{{ $company->name }}" name="name" required placeholder="{{ fake()->company." ".fake()->companySuffix }}" />
                                         </div>
                                     </div>
                                     <!-- end col -->
                                     <div class="col-6">
                                         <div class="input-style-1">
                                             <label>Email</label>
-                                            <input type="email" value="{{ old('email') }}" name="email" required placeholder="{{ fake()->companyEmail }}" />
+                                            <input type="email" value="{{ $company->email }}" name="email" required placeholder="{{ fake()->companyEmail }}" />
                                         </div>
                                     </div>
                                     <!-- end col -->
                                     <div class="col-6">
                                         <div class="input-style-1">
                                             <label>Username</label>
-                                            <input type="text" name="username" value="{{ old('username') }}" required placeholder="{{ fake()->userName() }}" />
+                                            <input type="text" name="username" value="{{ $company->username }}" required placeholder="{{ fake()->userName() }}" />
                                         </div>
                                     </div>
                                     <!-- end col -->
                                     <div class="col-6">
                                         <div class="input-style-1">
                                             <label>Website</label>
-                                            <input type="text" name="website" value="{{ old('website') }}" placeholder="{{ fake()->url() }}"/>
+                                            <input type="text" name="website" value="{{ $company->website }}" placeholder="{{ fake()->url() }}"/>
                                         </div>
                                     </div>
                                     <!-- end col -->

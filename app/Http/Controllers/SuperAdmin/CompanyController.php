@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\CreateCompanyRequest;
+use App\Http\Requests\Company\UpdateCompanyRequest;
 use App\Services\Company\CompanyService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -11,6 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -88,24 +90,42 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param string $id
+     * @return RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(string $id)
     {
-        //
+        try {
+            $company = $this->companyService->getCompany($id);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return back()->with('error', 'An error occurred while fetching the company details. Please try again later');
+        }
+
+        return view('companies.edit', compact('company'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param UpdateCompanyRequest $request
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCompanyRequest $request, $id)
     {
-        //
+        try {
+            DB::transaction(function () use ($request, $id) {
+                $this->companyService->updateCompany($request->validated(), $id);
+            });
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return back()->with('error', 'An error occurred while updating the company details. Please try again later');
+        }
+
+        return back()->with('success', 'Company details updated successfully');
     }
 
     /**
