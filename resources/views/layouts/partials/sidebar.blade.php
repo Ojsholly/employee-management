@@ -6,7 +6,7 @@
         </a>
     </div>
     <nav class="sidebar-nav">
-        <ul>
+        <ul @class(['collapsed' => request()->route()->named('super-admin.admins.*'), 'show' => request()->route()->named('super-admin.admins.*'), 'dropdown-nav' => request()->route()->named('super-admin.admins.*')])>
             <li class="nav-item">
                 <a href="{{ route(auth()->user()->getRoleNames()->first().'.dashboard') }}">
               <span class="icon">
@@ -53,7 +53,7 @@
                         </li>
                         @can('retrieve admin accounts')
                             <li>
-                                <a href="{{ route('super-admin.admins.index') }}"> View Admins </a>
+                                <a href="{{ route('super-admin.admins.index') }}" @class(['active' => request()->route()->named('super-admin.admins.index')])> View Admins </a>
                             </li>
                         @endcan
                     </ul>

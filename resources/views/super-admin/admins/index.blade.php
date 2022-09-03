@@ -44,6 +44,7 @@
                                             <th class="lead-email"><h6>Username</h6></th>
                                             <th class="lead-email"><h6>Name</h6></th>
                                             <th class="lead-email"><h6>Email</h6></th>
+                                            <th class="lead-email"><h6>Date Added</h6></th>
                                             <th><h6>Action</h6></th>
                                         </tr>
                                         <!-- end table row-->
@@ -63,9 +64,12 @@
                                                 <td class="min-width">
                                                     <p><a href="mailto:{{ $admin->email }}">{{ $admin->email }}</a></p>
                                                 </td>
+                                                <td class="min-width">
+                                                    <p>{{ $admin->created_at->toDayDateTimeString() }}</p>
+                                                </td>
                                                 <td>
                                                     <div class="action">
-                                                        <button class="text-danger">
+                                                        <button class="text-danger delete" data-id="{{ $admin->uuid }}">
                                                             <i class="lni lni-trash-can"></i>
                                                         </button>
                                                     </div>
@@ -92,3 +96,50 @@
     </section>
     <!-- ========== table components end ========== -->
 @endsection
+
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $('document').ready(function () {
+            $('.delete').click(function (e) {
+                e.preventDefault();
+
+                let id = $(this).data('id');
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this administrator!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            $.ajax({
+                                url: '/super-admin/admins/' + id,
+                                type: 'DELETE',
+                                data: {
+                                    _token: '{{ csrf_token() }}'
+                                },
+                                success: function (response) {
+                                    Swal.fire(response.message, {
+                                        icon: "success",
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                },
+                                error: function (error) {
+                                    Swal.fire(error.responseJSON.message, {
+                                        icon: "error",
+                                    });
+                                }
+                            });
+                        }
+                    });
+            });
+        });
+    </script>
+@endpush

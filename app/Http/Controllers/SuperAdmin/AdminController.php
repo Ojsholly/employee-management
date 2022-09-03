@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Services\Admin\AdminService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -94,11 +95,19 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  string  $id
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        //
+        try {
+            $this->adminService->deleteAdmin($id);
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return response()->json(['message' => 'An error occurred while trying to delete administrator. Please try again later.'], 500);
+        }
+
+        return response()->json(['message' => 'Administrator deleted successfully.'], 200);
     }
 }
