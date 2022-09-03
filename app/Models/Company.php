@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Mail\Company\AccountCreationNoticeMail;
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Mail;
 
 class Company extends Model
 {
@@ -22,6 +24,10 @@ class Company extends Model
 
     protected static function booted()
     {
+        static::created(function (Company $company) {
+            Mail::to($company->email)->send(new AccountCreationNoticeMail($company));
+        });
+
         static::deleted(function (Company $company) {
             $company->user->delete();
         });
