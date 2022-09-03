@@ -50,9 +50,10 @@ class CompanyService extends Service
     }
 
     /**
-     * @param array $data
-     * @param string $uuid
+     * @param  array  $data
+     * @param  string  $uuid
      * @return Company
+     *
      * @throws Throwable
      */
     public function updateCompany(array $data, string $uuid): Company

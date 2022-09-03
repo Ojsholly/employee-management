@@ -11,8 +11,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
@@ -90,7 +88,7 @@ class CompanyController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param string $id
+     * @param  string  $id
      * @return RedirectResponse|View
      */
     public function edit(string $id)
@@ -109,8 +107,8 @@ class CompanyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateCompanyRequest $request
-     * @param int $id
+     * @param  UpdateCompanyRequest  $request
+     * @param  int  $id
      * @return RedirectResponse
      */
     public function update(UpdateCompanyRequest $request, $id)
