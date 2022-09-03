@@ -35,18 +35,19 @@ class CompanyService extends Service
     /**
      * @return mixed
      */
-    public function getCompanies()
+    public function getCompanies(): mixed
     {
         return Company::paginate(10);
     }
 
     /**
-     * @param  string  $uuid
+     * @param string $uuid
+     * @param array $relationships
      * @return mixed
      *
      * @throws Throwable
      */
-    public function getCompany(string $uuid): mixed
+    public function getCompany(string $uuid, array $relationships = []): mixed
     {
         $company = Company::findByUuid($uuid);
 

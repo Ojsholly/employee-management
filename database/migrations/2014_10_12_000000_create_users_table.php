@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('username')->unique();
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->nullable();
             $table->dateTime('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

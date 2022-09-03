@@ -73,6 +73,16 @@
                                                 </td>
                                                 <td>
                                                     <div class="action">
+                                                        @can('retrieve company account')
+                                                            <a href="{{ route(auth()->user()->getRoleNames()->first().'.companies.employees.index', ['company' => $company->uuid]) }}" class="text-success">
+                                                                <i class="lni lni-eye"></i>
+                                                            </a>
+                                                        @endcan
+                                                        @can('create employee account')
+                                                            <a href="" class="text-success">
+                                                                <i class="lni lni-plus"></i>
+                                                            </a>
+                                                        @endcan
                                                         @can('update company account')
                                                             <a href="{{ route(auth()->user()->getRoleNames()->first().".companies.edit", ['company' => $company->uuid]) }}" class="text-warning">
                                                                 <i class="lni lni-pencil"></i>

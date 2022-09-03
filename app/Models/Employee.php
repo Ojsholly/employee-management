@@ -20,4 +20,9 @@ class Employee extends Model
     {
         return $this->belongsTo(Company::class, 'company_id', 'uuid');
     }
+
+    public function getNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
 }
