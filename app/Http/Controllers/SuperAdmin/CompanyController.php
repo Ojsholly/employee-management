@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Company\CreateCompanyRequest;
 use App\Services\Company\CompanyService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
@@ -41,22 +46,32 @@ class CompanyController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function create()
     {
-        //
+        return view('companies.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  CreateCompanyRequest  $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CreateCompanyRequest $request)
     {
-        //
+        try {
+            DB::transaction(function () use ($request) {
+                $this->companyService->createCompany($request->validated() + ['password' => Hash::make('password')]);
+            });
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return back()->with('error', 'An error occurred while creating the company. Please try again later');
+        }
+
+        return back()->with('success', 'Company account created successfully');
     }
 
     /**
