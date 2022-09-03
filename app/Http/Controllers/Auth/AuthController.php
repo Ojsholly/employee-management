@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Throwable;
 
 class AuthController extends Controller
@@ -42,5 +43,12 @@ class AuthController extends Controller
             'employee' => redirect()->route('employee.dashboard')->with('success', 'Employee Login Successful.'),
             default => redirect()->route('welcome'),
         };
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logoutCurrentDevice();
+
+        return redirect()->route('login')->with('success', 'You have been logged out successfully.');
     }
 }

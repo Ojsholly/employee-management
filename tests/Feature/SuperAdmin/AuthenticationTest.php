@@ -37,19 +37,29 @@ class AuthenticationTest extends TestCase
         $this->assertAuthenticatedAs($superAdmin);
     }
 
-public function test_super_admin_can_login_with_username()
-{
-    $this->withoutExceptionHandling();
+    public function test_super_admin_can_login_with_username()
+    {
+        $this->withoutExceptionHandling();
 
-    $superAdmin = $this->superAdmin();
+        $superAdmin = $this->superAdmin();
 
-    $response = $this->post(route('verify-credentials'), [
-        'identifier' => $superAdmin->username,
-        'password' => 'password',
-    ]);
+        $response = $this->post(route('verify-credentials'), [
+            'identifier' => $superAdmin->username,
+            'password' => 'password',
+        ]);
 
-    $response->assertRedirect(route('super-admin.dashboard'));
+        $response->assertRedirect(route('super-admin.dashboard'));
 
-    $this->assertAuthenticatedAs($superAdmin);
-}
+        $this->assertAuthenticatedAs($superAdmin);
+    }
+
+    public function test_super_admin_can_logout()
+    {
+        $this->withoutExceptionHandling();
+        $superAdmin = $this->superAdmin();
+
+        $this->actingAs($superAdmin)->post(route('logout'))->assertRedirect(route('login'));
+
+        $this->assertGuest();
+    }
 }

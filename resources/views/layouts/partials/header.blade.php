@@ -187,14 +187,21 @@
                                 <a href="signin.html#0"> <i class="lni lni-cog"></i> Settings </a>
                             </li>
                             <li>
-                                <a href="signin.html#0"> <i class="lni lni-exit"></i> Sign Out </a>
+                                <a onclick="logout()"> <i class="lni lni-exit"></i> Sign Out </a>
                             </li>
                         </ul>
                     </div>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
                     <!-- profile end -->
                 </div>
             </div>
         </div>
     </div>
 </header>
+<script>
+    function logout() {
+        document.getElementById('logout-form').submit();
+    }
+</script>
 <!-- ========== header end ========== -->
