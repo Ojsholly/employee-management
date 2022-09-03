@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title', 'Administrators')
+@section('title', 'Companies')
 
 @section('content')
     <!-- ========== table components start ========== -->
@@ -11,7 +11,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <div class="title mb-30">
-                            <h2>Administrators</h2>
+                            <h2>Companies</h2>
                         </div>
                     </div>
                     <!-- end col -->
@@ -27,15 +27,15 @@
                         <div class="card-style mb-30">
                             <h6 class="mb-10">Data Table</h6>
                             <p class="text-sm mb-20">
-                                The list of administrators on the system currently.
+                                The list of companies on the system currently.
                             </p>
-                            @if($admins->isEmpty())
+                            @if($companies->isEmpty())
                                 <div class="alert alert-warning">
                                     <p class="mb-0">
-                                        No administrators found.
+                                        No companies found.
                                     </p>
                                 </div>
-                                @else
+                            @else
                                 <div class="table-wrapper table-responsive">
                                     <table class="table">
                                         <thead>
@@ -44,34 +44,45 @@
                                             <th class="lead-email"><h6>Username</h6></th>
                                             <th class="lead-email"><h6>Name</h6></th>
                                             <th class="lead-email"><h6>Email</h6></th>
+                                            <th class="lead-email"><h6>Website</h6></th>
                                             <th class="lead-email"><h6>Date Added</h6></th>
                                             <th><h6>Action</h6></th>
                                         </tr>
                                         <!-- end table row-->
                                         </thead>
                                         <tbody>
-                                        @foreach($admins as $admin)
+                                        @foreach($companies as $company)
                                             <tr>
                                                 <td class="min-width">
-                                                    <p class="text-bold">{{ (($admins->currentPage() - 1) * $admins->perPage()) + $loop->iteration."." }}</p>
+                                                    <p class="text-bold">{{ (($companies->currentPage() - 1) * $companies->perPage()) + $loop->iteration."." }}</p>
                                                 </td>
                                                 <td class="min-width">
-                                                    <p>{{ Str::ucfirst($admin->username) }}</p>
+                                                    <p>{{ Str::ucfirst($company->username) }}</p>
                                                 </td>
                                                 <td class="min-width">
-                                                    <p>{{ $admin->name }}</p>
+                                                    <p>{{ $company->name }}</p>
                                                 </td>
                                                 <td class="min-width">
-                                                    <p><a href="mailto:{{ $admin->email }}">{{ $admin->email }}</a></p>
+                                                    <p><a href="mailto:{{ $company->email }}">{{ $company->email }}</a></p>
                                                 </td>
                                                 <td class="min-width">
-                                                    <p>{{ $admin->created_at->toDayDateTimeString() }}</p>
+                                                    <p><a href="{{ $company->website }}" target="_blank" rel="noreferrer  nofollow">{{ $company->website }}</a></p>
+                                                </td>
+                                                <td class="min-width">
+                                                    <p>{{ $company->created_at->toDayDateTimeString() }}</p>
                                                 </td>
                                                 <td>
                                                     <div class="action">
-                                                        <button class="text-danger delete" data-id="{{ $admin->uuid }}">
-                                                            <i class="lni lni-trash-can"></i>
-                                                        </button>
+                                                        @can('update company account')
+                                                            <a href="{{ route(auth()->user()->getRoleNames()->first().".companies.edit", ['company' => $company->uuid]) }}" class="text-warning">
+                                                                <i class="lni lni-pencil"></i>
+                                                            </a>
+                                                        @endcan
+                                                        @can('delete company account')
+                                                            <button class="text-danger delete" data-id="{{ $company->uuid }}">
+                                                                <i class="lni lni-trash-can"></i>
+                                                            </button>
+                                                        @endcan
                                                     </div>
                                                 </td>
                                             </tr>
@@ -81,7 +92,7 @@
                                     </table>
                                     <!-- end table -->
                                 </div>
-                                {!! $admins->links() !!}
+                                {!! $companies->links() !!}
                             @endif
                         </div>
                         <!-- end card -->
@@ -101,43 +112,52 @@
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $('document').ready(function () {
+
+        $("document").ready(function () {
             $('.delete').click(function (e) {
-                e.preventDefault();
+                e.preventDefault()
 
                 let id = $(this).data('id');
+                let prefix = "{{ route(auth()->user()->getRoleNames()->first().'.companies.destroy', ':id') }}";
+                let url = prefix.replace(':id', id);
 
                 Swal.fire({
-                    title: "Are you sure?",
-                    text: "Once deleted, you will not be able to recover this administrator!",
-                    icon: "warning",
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
                     confirmButtonText: 'Yes, delete it!'
-                }).then((willDelete) => {
-                        if (willDelete.isConfirmed) {
-                            $.ajax({
-                                url: '/super-admin/admins/' + id,
-                                type: 'DELETE',
-                                data: {
-                                    _token: '{{ csrf_token() }}'
-                                },
-                                success: function (response) {
-                                    Swal.fire(response.message, {
-                                        icon: "success",
-                                    }).then(() => {
-                                        location.reload();
-                                    });
-                                },
-                                error: function (error) {
-                                    Swal.fire(error.responseJSON.message, {
-                                        icon: "error",
-                                    });
-                                }
-                            });
-                        }
-                    });
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function (response) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Company has been deleted.',
+                                    'success'
+                                ).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload();
+                                    }
+                                });
+                            },
+                            error: function (error) {
+                                Swal.fire(
+                                    'Error!',
+                                    'Something went wrong.',
+                                    'error'
+                                )
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>
