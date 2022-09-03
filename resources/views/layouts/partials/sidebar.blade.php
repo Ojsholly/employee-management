@@ -49,7 +49,7 @@
                     </a>
                     <ul id="ddmenu_1" class="collapse dropdown-nav">
                         <li>
-                            <a href="projects.html">Create Admin</a>
+                            <a href="{{ route('super-admin.admins.create') }}">Create Admin</a>
                         </li>
                         @can('retrieve admin accounts')
                             <li>

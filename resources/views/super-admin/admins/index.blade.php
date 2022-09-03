@@ -53,7 +53,7 @@
                                         @foreach($admins as $admin)
                                             <tr>
                                                 <td class="min-width">
-                                                    <p class="text-bold">{{ $loop->iteration."." }}</p>
+                                                    <p class="text-bold">{{ (($admins->currentPage() - 1) * $admins->perPage()) + $loop->iteration."." }}</p>
                                                 </td>
                                                 <td class="min-width">
                                                     <p>{{ Str::ucfirst($admin->username) }}</p>

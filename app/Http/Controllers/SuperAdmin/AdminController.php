@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SuperAdmin\CreateAdminRequest;
 use App\Services\Admin\AdminService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Throwable;
 
@@ -40,22 +45,32 @@ class AdminController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
-        //
+        return view('super-admin.admins.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  CreateAdminRequest  $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CreateAdminRequest $request)
     {
-        //
+        try {
+            DB::transaction(function () use ($request) {
+                $this->adminService->createAdmin($request->validated() + ['password' => Hash::make('password'), 'email_verified_at' => now()]);
+            });
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return back()->withInput()->with('error', 'An error occurred while trying to create administrator. Please try again later.');
+        }
+
+        return back()->with('success', 'Administrator account created successfully.');
     }
 
     /**
@@ -96,18 +111,26 @@ class AdminController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  string  $id
-     * @return JsonResponse
+     * @return JsonResponse|RedirectResponse
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse|RedirectResponse
     {
         try {
             $this->adminService->deleteAdmin($id);
         } catch (Throwable $exception) {
             report($exception);
 
-            return response()->json(['message' => 'An error occurred while trying to delete administrator. Please try again later.'], 500);
+            if (request()->ajax()) {
+                return response()->json(['message' => 'An error occurred while trying to delete administrator. Please try again later.'], 500);
+            }
+
+            return back()->with('error', 'An error occurred while trying to delete administrator. Please try again later.');
         }
 
-        return response()->json(['message' => 'Administrator deleted successfully.'], 200);
+        if (request()->ajax()) {
+            return response()->json(['message' => 'Administrator deleted successfully.'], 200);
+        }
+
+        return back()->with('success', 'Administrator deleted successfully.');
     }
 }
