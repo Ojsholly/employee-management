@@ -25,7 +25,9 @@ class CompanyService extends Service
 
         $user->company()->create($companyData);
 
-        Mail::to($user->company->email)->send(new AccountCreationNoticeMail($user->company));
+        if (! app()->environment('testing')) {
+            Mail::to($user->company->email)->send(new AccountCreationNoticeMail($user->company));
+        }
 
         return $user->company;
     }
