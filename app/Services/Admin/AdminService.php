@@ -11,7 +11,7 @@ use Throwable;
 class AdminService extends Service
 {
     /**
-     * @param array $data
+     * @param  array  $data
      * @return User
      */
     public function createAdmin(array $data): User
@@ -20,15 +20,16 @@ class AdminService extends Service
     }
 
     /**
-     * @param string $uuid
+     * @param  string  $uuid
      * @return mixed
+     *
      * @throws Throwable
      */
     public function getAdmin(string $uuid): mixed
     {
         $admin = User::where('uuid', $uuid)->role('admin')->first();
 
-        throw_if(! $admin, new ModelNotFoundException("Requested administrator account not found.", ResponseAlias::HTTP_NOT_FOUND));
+        throw_if(! $admin, new ModelNotFoundException('Requested administrator account not found.', ResponseAlias::HTTP_NOT_FOUND));
 
         return $admin;
     }
@@ -42,8 +43,9 @@ class AdminService extends Service
     }
 
     /**
-     * @param string $uuid
+     * @param  string  $uuid
      * @return bool
+     *
      * @throws Throwable
      */
     public function deleteAdmin(string $uuid): bool

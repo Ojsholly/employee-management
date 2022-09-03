@@ -20,7 +20,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @param LoginRequest $request
+     * @param  LoginRequest  $request
      * @return RedirectResponse
      */
     public function login(LoginRequest $request): RedirectResponse
@@ -51,7 +51,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param  Request  $request
      * @return RedirectResponse
      */
     public function logout(Request $request): RedirectResponse

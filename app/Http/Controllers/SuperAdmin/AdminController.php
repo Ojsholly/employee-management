@@ -26,11 +26,11 @@ class AdminController extends Controller
     public function index(): RedirectResponse|View
     {
         try {
-            $admins =  $this->adminService->getAdmins();
+            $admins = $this->adminService->getAdmins();
         } catch (Throwable $exception) {
             report($exception);
 
-            return back()->with('error', "An error occurred while trying to retrieve administrators. Please try again later.");
+            return back()->with('error', 'An error occurred while trying to retrieve administrators. Please try again later.');
         }
 
         return view('super-admin.admins.index', compact('admins'));

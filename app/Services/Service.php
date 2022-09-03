@@ -7,8 +7,8 @@ use App\Models\User;
 class Service
 {
     /**
-     * @param array $data
-     * @param string $role
+     * @param  array  $data
+     * @param  string  $role
      * @return User
      */
     public function createUser(array $data, string $role): User
