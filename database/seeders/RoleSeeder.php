@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
@@ -41,7 +40,7 @@ class RoleSeeder extends Seeder
 
         $this->company($companyPermissions);
 
-        $employeePermissions = collect($permissions)->only(5, 9 )->toArray();       // Remove all the super admin permissions, admin and company permissions from the employee permissions
+        $employeePermissions = collect($permissions)->only(5, 9)->toArray();       // Remove all the super admin permissions, admin and company permissions from the employee permissions
 
         $this->employee($employeePermissions);
     }
@@ -62,7 +61,7 @@ class RoleSeeder extends Seeder
     }
 
     /**
-     * @param array $permissions
+     * @param  array  $permissions
      * @return void
      */
     public function createPermissions(array $permissions): void
@@ -73,7 +72,7 @@ class RoleSeeder extends Seeder
     }
 
     /**
-     * @param array $permissions
+     * @param  array  $permissions
      * @return void
      */
     public function superAdmin(array $permissions): void
@@ -86,7 +85,7 @@ class RoleSeeder extends Seeder
     }
 
     /**
-     * @param array $permissions
+     * @param  array  $permissions
      * @return void
      */
     public function admin(array $permissions): void
@@ -99,7 +98,7 @@ class RoleSeeder extends Seeder
     }
 
     /**
-     * @param array $permissions
+     * @param  array  $permissions
      * @return void
      */
     public function company(array $permissions): void
@@ -112,7 +111,7 @@ class RoleSeeder extends Seeder
     }
 
     /**
-     * @param array $permissions
+     * @param  array  $permissions
      * @return void
      */
     public function employee(array $permissions): void
