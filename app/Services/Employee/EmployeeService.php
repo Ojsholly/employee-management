@@ -5,7 +5,6 @@ namespace App\Services\Employee;
 use App\Models\Employee;
 use App\Services\Service;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
@@ -13,7 +12,7 @@ use Throwable;
 class EmployeeService extends Service
 {
     /**
-     * @param string $companyUuid
+     * @param  string  $companyUuid
      * @return LengthAwarePaginator
      */
     public function getEmployeesByCompany(string $companyUuid): LengthAwarePaginator
@@ -24,19 +23,20 @@ class EmployeeService extends Service
     /**
      * @param $uuid
      * @return mixed
+     *
      * @throws Throwable
      */
     public function getEmployee($uuid): mixed
     {
         $employee = Employee::findByUuid($uuid);
 
-        throw_if(!$employee, new ModelNotFoundException("Requested employee not found.", ResponseAlias::HTTP_NOT_FOUND));
+        throw_if(! $employee, new ModelNotFoundException('Requested employee not found.', ResponseAlias::HTTP_NOT_FOUND));
 
         return $employee;
     }
 
     /**
-     * @param array $data
+     * @param  array  $data
      * @return mixed
      */
     public function createEmployee(array $data): mixed
@@ -50,5 +50,18 @@ class EmployeeService extends Service
         $user->employee()->create($employeeData);
 
         return $user->employee;
+    }
+
+    /**
+     * @param  string  $uuid
+     * @return mixed
+     *
+     * @throws Throwable
+     */
+    public function deleteEmployee(string $uuid): mixed
+    {
+        $employee = $this->getEmployee($uuid);
+
+        return $employee->delete();
     }
 }

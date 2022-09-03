@@ -13,8 +13,15 @@ class Employee extends Model
     use HasFactory, HasUUID, SoftDeletes;
 
     protected $fillable = [
-      'user_id', 'first_name', 'last_name', 'company_id', 'email', 'phone'
+        'user_id', 'first_name', 'last_name', 'company_id', 'email', 'phone',
     ];
+
+    protected static function booted()
+    {
+        static::softDeleted(function (Employee $employee) {
+            $employee->user?->delete();
+        });
+    }
 
     public function company(): BelongsTo
     {

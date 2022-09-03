@@ -219,7 +219,7 @@
                                             <td>
                                                 <div class="action">
                                                     @can('delete employee account')
-                                                        <button class="text-danger delete">
+                                                        <button class="text-danger delete" data-id="{{ $employee->uuid }}">
                                                             <i class="lni lni-trash-can"></i>
                                                         </button>
                                                     @endcan
@@ -245,3 +245,60 @@
     </section>
     <!-- ========== section end ========== -->
 @endsection
+
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.delete').click(function (e) {
+
+                e.preventDefault();
+
+                let id = $(this).data('id');
+                 var url = '{{ route('super-admin.companies.employees.destroy', [':company', ':employee']) }}';
+                url = url.replace(':employee', id);
+                url = url.replace(':company', '{{ $company->uuid }}');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function (response) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Employee has been deleted.',
+                                    'success'
+                                ).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload();
+                                    }
+                                });
+                            },
+                            error: function (error) {
+                                Swal.fire(
+                                    'Error!',
+                                    'Something went wrong.',
+                                    'error'
+                                )
+                            }
+                        });
+                    }
+                })
+            })
+        })
+    </script>
+@endpush

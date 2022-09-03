@@ -41,8 +41,8 @@ class CompanyService extends Service
     }
 
     /**
-     * @param string $uuid
-     * @param array $relationships
+     * @param  string  $uuid
+     * @param  array  $relationships
      * @return mixed
      *
      * @throws Throwable

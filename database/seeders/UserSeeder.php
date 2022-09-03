@@ -21,9 +21,9 @@ class UserSeeder extends Seeder
         User::factory(20)->admin()->create();
 
         User::factory(10)->company()->has(
-            Company::factory()->count(15)->has(
+            Company::factory()->count(10)->has(
                 Employee::factory()->count(50)
             )
-        )->create();                        // 15 companies with 5 employees each
+        )->create();                        // 10 companies with 50 employees each
     }
 }
