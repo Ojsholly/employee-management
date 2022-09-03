@@ -21,4 +21,5 @@ Route::get('/', function () {
 Route::controller(AuthController::class)->middleware('guest')->group(function () {
     Route::view('login', 'login')->name('login');
     Route::post('verify-credentials', [AuthController::class, 'login'])->name('verify-credentials');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout')->middleware(['auth'])->withoutMiddleware('guest');
 });

@@ -24,8 +24,9 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
 
-            $table->index([ 'username', 'email' ]);
+            $table->index([ 'username', 'email', 'deleted_at' ]);
         });
     }
 

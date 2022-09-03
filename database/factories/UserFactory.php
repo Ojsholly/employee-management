@@ -99,6 +99,10 @@ class UserFactory extends Factory
             if ($user->username == 'Ojsholly' || $user->email == 'superadmin@admin.com') {
                 $user->assignRole('super-admin');
             }
+
+            if ($user->first_name != null && $user->last_name != null && $user->email != null && $user->username != 'Ojsholly') {
+                $user->assignRole('admin');
+            }
         });
     }
 }
