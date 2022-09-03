@@ -103,6 +103,10 @@ class UserFactory extends Factory
             if ($user->first_name != null && $user->last_name != null && $user->email != null && $user->username != 'Ojsholly') {
                 $user->assignRole('admin');
             }
+
+            if ($user->company != null) {
+                $user->assignRole('company');
+            }
         });
     }
 }
