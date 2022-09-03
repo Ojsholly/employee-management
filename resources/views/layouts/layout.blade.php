@@ -32,6 +32,7 @@
     @yield('content')
 
 @include('layouts.partials.footer')
+@stack('styles')
 </main>
 <!-- ======== main-wrapper end =========== -->
 

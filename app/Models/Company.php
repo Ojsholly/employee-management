@@ -13,12 +13,19 @@ class Company extends Model
     use HasFactory, HasUUID, SoftDeletes;
 
     protected $fillable = [
-        'user_id', 'name', 'email', 'website'
+        'user_id', 'name', 'email', 'website',
     ];
 
     protected $with = [
-        'user'
+        'user',
     ];
+
+    protected static function booted()
+    {
+        static::deleted(function (Company $company) {
+            $company->user->delete();
+        });
+    }
 
     public function user(): BelongsTo
     {
