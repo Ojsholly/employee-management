@@ -2,9 +2,11 @@
 
 namespace App\Services\Company;
 
+use App\Mail\Company\AccountCreationNoticeMail;
 use App\Models\Company;
 use App\Services\Service;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 use Throwable;
 
@@ -22,6 +24,8 @@ class CompanyService extends Service
         $companyData = collect($data)->only(['name', 'email', 'website'])->toArray();
 
         $user->company()->create($companyData);
+
+        Mail::to($user->company->email)->send(new AccountCreationNoticeMail($user->company));
 
         return $user->company;
     }
