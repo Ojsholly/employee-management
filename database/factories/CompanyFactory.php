@@ -19,7 +19,7 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => fake()->unique(true)->company.' '.fake()->unique(true)->companySuffix.' '.Str::random(5),
-            'email' => fake()->unique(true)->companyEmail,
+            'email' => fake()->unique(true)->companyEmail.Str::random(),
             'website' => fake()->unique(true)->url().'/'.Str::random(),
         ];
     }

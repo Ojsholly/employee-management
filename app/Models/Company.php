@@ -6,6 +6,7 @@ use BinaryCabin\LaravelUUID\Traits\HasUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
@@ -23,7 +24,7 @@ class Company extends Model
     protected static function booted()
     {
         static::deleted(function (Company $company) {
-            $company->user->delete();
+            $company->user?->delete();
         });
     }
 
@@ -34,6 +35,11 @@ class Company extends Model
 
     public function getUsernameAttribute()
     {
-        return $this->user->username;
+        return $this->user?->username ?? fake()->userName;
+    }
+
+    public function employees(): HasMany
+    {
+        return $this->hasMany(Employee::class, 'company_id', 'uuid');
     }
 }
