@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class CompanyTest extends TestCase
@@ -52,13 +53,14 @@ class CompanyTest extends TestCase
         $companyCount = User::role('company')->count();
 
         $company = [
-            'name' => fake()->company.' '.fake()->companySuffix,
-            'email' => fake()->unique(true)->companyEmail,
-            'website' => fake()->unique(true)->url(),
-            'username' => fake()->unique(true)->userName,
+            'name' => fake()->unique(true)->company.' '.fake()->unique(true)->companySuffix.Str::random(),
+            'email' => fake()->unique(true)->companyEmail.Str::random(),
+            'website' => fake()->unique(true)->url().'/'.Str::random(),
+            'username' => fake()->unique(true)->userName.Str::random(),
         ];
 
-        $this->actingAs($superAdmin)->post(route('super-admin.companies.store'), $company);
+        $this->actingAs($superAdmin)->post(route('super-admin.companies.store'), $company)
+            ->assertStatus(302)->assertSessionHas('success', 'Company account created successfully');
 
         $this->assertEquals($companyCount + 1, User::role('company')->count());
 
