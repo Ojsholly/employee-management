@@ -24,7 +24,7 @@ class Company extends Model
     protected static function booted()
     {
         static::deleted(function (Company $company) {
-            $company->user->delete();
+            $company->user?->delete();
         });
     }
 
@@ -35,7 +35,7 @@ class Company extends Model
 
     public function getUsernameAttribute()
     {
-        return $this->user->username;
+        return $this->user?->username ?? fake()->userName;
     }
 
     public function employees(): HasMany

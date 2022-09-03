@@ -41,11 +41,11 @@ class EmployeeService extends Service
      */
     public function createEmployee(array $data): mixed
     {
-        $userData = collect($data)->only(['username'])->toArray();
+        $userData = collect($data)->only(['username', 'password'])->toArray();
 
         $user = $this->createUser($userData, 'employee');
 
-        $employeeData = collect($data)->only(['first_name', 'last_name', 'email', 'phone'])->toArray();
+        $employeeData = collect($data)->only(['first_name', 'last_name', 'email', 'phone', 'company_id'])->toArray();
 
         $user->employee()->create($employeeData);
 

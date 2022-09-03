@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Employee\CreateEmployeeRequest;
 use App\Services\Company\CompanyService;
 use App\Services\Employee\EmployeeService;
 use Illuminate\Contracts\Foundation\Application;
@@ -11,6 +12,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Throwable;
 
 class EmployeeController extends Controller
@@ -47,22 +50,36 @@ class EmployeeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return Application|Factory|View
+     *
+     * @throws Throwable
      */
     public function create()
     {
-        //
+        $company = $this->companyService->getCompany(request()->route('company'));
+
+        return view('employees.create', compact('company'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param  CreateEmployeeRequest  $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CreateEmployeeRequest $request)
     {
-        //
+        try {
+            DB::transaction(function () use ($request) {
+                $this->employeeService->createEmployee($request->validated() + ['company_id' => request()->route('company'), 'password' => Hash::make($request->password)]);
+            });
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return redirect()->back()->with('error', 'An error occurred while creating the employee.');
+        }
+
+        return redirect()->back()->with('success', "Employee {$request->first_name} {$request->last_name} created successfully.");
     }
 
     /**

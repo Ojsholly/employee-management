@@ -79,8 +79,8 @@
                                                             </a>
                                                         @endcan
                                                         @can('create employee account')
-                                                            <a href="" class="text-success">
-                                                                <i class="lni lni-plus"></i>
+                                                            <a href="{{ route(auth()->user()->getRoleNames()->first().".companies.employees.create", [$company->uuid]) }}" class="text-success">
+                                                                <i class="lni lni-circle-plus"></i>
                                                             </a>
                                                         @endcan
                                                         @can('update company account')
