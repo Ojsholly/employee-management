@@ -21,7 +21,7 @@ class UserFactory extends Factory
         return [
             'first_name' => fake()->firstName,
             'last_name' => fake()->lastName,
-            'username' => fake()->unique(true)->userName,
+            'username' => fake()->unique(true)->userName.Str::random(),
             'email' => fake()->unique(true)->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -59,7 +59,7 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'first_name' => fake()->firstName,
             'last_name' => fake()->lastName,
-            'username' => fake()->unique(true)->userName(),
+            'username' => fake()->unique(true)->userName().Str::random(),
             'email' => fake()->unique(true)->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -72,7 +72,7 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'first_name' => null,
             'last_name' => null,
-            'username' => fake()->unique(true)->userName,
+            'username' => fake()->unique(true)->userName.Str::random(),
             'email' => null,
             'email_verified_at' => null,
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -85,7 +85,7 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'first_name' => null,
             'last_name' => null,
-            'username' => fake()->unique(true)->userName,
+            'username' => fake()->unique(true)->userName.Str::random(),
             'email' => null,
             'email_verified_at' => null,
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
