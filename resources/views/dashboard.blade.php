@@ -1,8 +1,93 @@
 @extends('layouts.layout')
 
-@section('title', $company->name ." Profile")
+@section('title', Str::ucfirst(auth()->user()->getRoleNames()->first())." - Dashboard")
 
 @section('content')
+    @can('create company accounts')
+    <!-- ========== section start ========== -->
+    <section class="section">
+        <div class="container-fluid">
+            <!-- ========== title-wrapper start ========== -->
+            <div class="title-wrapper pt-30">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="title mb-30">
+                            <h2>System Metrics</h2>
+                        </div>
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- ========== title-wrapper end ========== -->
+            <div class="row">
+                @role('super-admin')
+                <div class="col-xl-3 col-lg-4 col-sm-6">
+                    <div class="icon-card mb-30">
+                        <div class="icon purple">
+                            <i class="lni lni-cart-full"></i>
+                        </div>
+                        <div class="content">
+                            <h6 class="mb-10">Super Admins</h6>
+                            <h3 class="text-bold mb-10">{{ data_get($metrics, 'superAdminCount') }}</h3>
+                        </div>
+                    </div>
+                    <!-- End Icon Cart -->
+                </div>
+                <!-- End Col -->
+                <div class="col-xl-3 col-lg-4 col-sm-6">
+                    <div class="icon-card mb-30">
+                        <div class="icon success">
+                            <i class="lni lni-dollar"></i>
+                        </div>
+                        <div class="content">
+                            <h6 class="mb-10">Administrators</h6>
+                            <h3 class="text-bold mb-10">{{ data_get($metrics, 'adminCount') }}</h3>
+                        </div>
+                    </div>
+                    <!-- End Icon Cart -->
+                </div>
+                <!-- End Col -->
+                @endrole
+                @can('create company accounts')
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="icon-card mb-30">
+                            <div class="icon primary">
+                                <i class="lni lni-credit-cards"></i>
+                            </div>
+                            <div class="content">
+                                <h6 class="mb-10">Companies</h6>
+                                <h3 class="text-bold mb-10">{{ data_get($metrics, 'companyCount') }}</h3>
+                            </div>
+                        </div>
+                        <!-- End Icon Cart -->
+                    </div>
+                @endcan
+                <!-- End Col -->
+                @can('create employee accounts')
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="icon-card mb-30">
+                            <div class="icon orange">
+                                <i class="lni lni-user"></i>
+                            </div>
+                            <div class="content">
+                                <h6 class="mb-10">Employees</h6>
+                                <h3 class="text-bold mb-10">{{ data_get($metrics, 'employeeCount') }}</h3>
+                            </div>
+                        </div>
+                        <!-- End Icon Cart -->
+                    </div>
+                    <!-- End Col -->
+                @endcan
+            </div>
+            <!-- End Row -->
+        </div>
+        <!-- end container -->
+    </section>
+    <!-- ========== section end ========== -->
+    @endcan()
+
+    @role('company')
     <!-- ========== section start ========== -->
     <section class="section">
         <div class="container-fluid">
@@ -162,7 +247,7 @@
                                     No employees found.
                                 </p>
                             </div>
-                            @else
+                        @else
                             <div class="table-wrapper table-responsive">
                                 <table class="table clients-table">
                                     <thead>
@@ -228,61 +313,5 @@
         <!-- end container -->
     </section>
     <!-- ========== section end ========== -->
+    @endrole
 @endsection
-
-@push('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('.delete').click(function (e) {
-
-                e.preventDefault();
-
-                let id = $(this).data('id');
-                 var url = '{{ route('super-admin.companies.employees.destroy', [':company', ':employee']) }}';
-                url = url.replace(':employee', id);
-                url = url.replace(':company', '{{ $company->uuid }}');
-
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: url,
-                            type: 'DELETE',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            },
-                            success: function (response) {
-                                Swal.fire(
-                                    'Deleted!',
-                                    'Employee has been deleted.',
-                                    'success'
-                                ).then((result) => {
-                                    if (result.isConfirmed) {
-                                        window.location.reload();
-                                    }
-                                });
-                            },
-                            error: function (error) {
-                                Swal.fire(
-                                    'Error!',
-                                    'Something went wrong.',
-                                    'error'
-                                )
-                            }
-                        });
-                    }
-                })
-            })
-        })
-    </script>
-@endpush

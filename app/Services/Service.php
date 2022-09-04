@@ -19,4 +19,46 @@ class Service
 
         return $user;
     }
+
+    /**
+     * @return int
+     */
+    public function countSuperAdmins(): int
+    {
+        return User::role('super-admin')->count();
+    }
+
+    /**
+     * @return int
+     */
+    public function countAdmins(): int
+    {
+        return User::role('admin')->count();
+    }
+
+    /**
+     * @return int
+     */
+    public function countCompanies(): int
+    {
+        return User::role('company')->count();
+    }
+
+    /**
+     * @return int
+     */
+    public function countEmployees(): int
+    {
+        return User::role('employee')->count();
+    }
+
+    public function getMetrics(): array
+    {
+        return [
+            'superAdminCount' => $this->countSuperAdmins(),
+            'adminCount' => $this->countAdmins(),
+            'companyCount' => $this->countCompanies(),
+            'employeeCount' => $this->countEmployees(),
+        ];
+    }
 }

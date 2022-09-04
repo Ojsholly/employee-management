@@ -64,4 +64,26 @@ class EmployeeService extends Service
 
         return $employee->delete();
     }
+
+    /**
+     * @param  array  $data
+     * @param  string  $uuid
+     * @return mixed
+     *
+     * @throws Throwable
+     */
+    public function updateEmployee(array $data, string $uuid): mixed
+    {
+        $employee = $this->getEmployee($uuid);
+
+        $userData = collect($data)->only(['username'])->toArray();
+
+        $employee->user->update($userData);
+
+        $employeeData = collect($data)->only(['first_name', 'last_name', 'email', 'phone'])->toArray();
+
+        $employee->update($employeeData);
+
+        return $employee;
+    }
 }

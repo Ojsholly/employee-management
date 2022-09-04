@@ -23,6 +23,13 @@ class Employee extends Model
         });
     }
 
+    protected $with = ['user'];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'uuid');
+    }
+
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'company_id', 'uuid');

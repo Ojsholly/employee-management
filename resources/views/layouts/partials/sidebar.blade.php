@@ -83,7 +83,7 @@
                                 <a href="{{ route(auth()->user()->getRoleNames()->first().".companies.create") }}">Create Company </a>
                             </li>
                         @endcan
-                        @can('retrieve admin accounts')
+                        @can('retrieve company accounts')
                             <li>
                                 <a href="{{ route(auth()->user()->getRoleNames()->first().".companies.index") }}"> View Companies </a>
                             </li>

@@ -1,8 +1,8 @@
-# Rental System Backend Implementation
+# Employee Management System Backend Implementation
 
 ## Project Description
 
-The project is a collection of endpoints for a Book and Equipment Rental System.  A postman collection for the endpoints can be found at https://documenter.getpostman.com/view/22569385/VUr1JDGK. A postman collection dump is also available in the root of the project.
+The project is a collection of role and permissions based access to the management of employees by a super admin and other admins. 
 
 ## Project Setup
 
