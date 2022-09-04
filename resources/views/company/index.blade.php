@@ -155,27 +155,6 @@
                             class="title d-flex justify-content-between align-items-center"
                         >
                             <h6 class="mb-10">Employees</h6>
-                            <div class="more-btn-wrapper">
-                                <button
-                                    class="more-btn dropdown-toggle"
-                                    id="moreAction"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    <i class="lni lni-more-alt"></i>
-                                </button>
-                                <ul
-                                    class="dropdown-menu dropdown-menu-end"
-                                    aria-labelledby="moreAction"
-                                >
-                                    <li class="dropdown-item">
-                                        <a href="clients.html#0" class="text-gray">Mark as Read</a>
-                                    </li>
-                                    <li class="dropdown-item">
-                                        <a href="clients.html#0" class="text-gray">Reply</a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                         @if($employees->isEmpty())
                             <div class="alert alert-warning">
@@ -218,6 +197,11 @@
                                             </td>
                                             <td>
                                                 <div class="action">
+                                                    @can('update employee account')
+                                                        <a href="{{ route(auth()->user()->getRoleNames()->first().".companies.employees.edit", ['company' => $company->uuid, 'employee' => $employee->uuid]) }}" class="text-warning">
+                                                            <i class="lni lni-pencil"></i>
+                                                        </a>
+                                                    @endcan
                                                     @can('delete employee account')
                                                         <button class="text-danger delete" data-id="{{ $employee->uuid }}">
                                                             <i class="lni lni-trash-can"></i>

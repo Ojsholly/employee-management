@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Employee\CreateEmployeeRequest;
+use App\Http\Requests\Employee\UpdateEmployeeRequest;
 use App\Services\Company\CompanyService;
 use App\Services\Employee\EmployeeService;
 use Illuminate\Contracts\Foundation\Application;
@@ -10,7 +11,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -76,7 +76,7 @@ class EmployeeController extends Controller
         } catch (Throwable $exception) {
             report($exception);
 
-            return redirect()->back()->with('error', 'An error occurred while creating the employee.');
+            return back()->withInput()->with('error', 'An error occurred while creating the employee.');
         }
 
         return redirect()->back()->with('success', "Employee {$request->first_name} {$request->last_name} created successfully.");
@@ -96,24 +96,42 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param  string  $id
+     * @return Application|Factory|RedirectResponse|View
      */
-    public function edit($id)
+    public function edit(string $id)
     {
-        //
+        try {
+            $employee = $this->employeeService->getEmployee(request()->route('employee'));
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return back()->withInput()->with('error', 'An error occurred while loading the page for this employee.');
+        }
+
+        return view('employees.edit', compact('employee'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return Response
+     * @param  UpdateEmployeeRequest  $request
+     * @param  string  $id
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateEmployeeRequest $request, $id): RedirectResponse
     {
-        //
+        try {
+            DB::transaction(function () use ($request) {
+                $this->employeeService->updateEmployee($request->validated(), request()->route('employee'));
+            });
+        } catch (Throwable $exception) {
+            report($exception);
+
+            return back()->withInput()->with('error', 'An error occurred while updating the employee.');
+        }
+
+        return back()->with('success', "Employee {$request->first_name} {$request->last_name} updated successfully.");
     }
 
     /**
