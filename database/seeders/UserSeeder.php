@@ -18,12 +18,12 @@ class UserSeeder extends Seeder
     {
         User::factory()->superAdmin()->create();
 
-        User::factory(20)->admin()->create();
-
-        User::factory(10)->company()->has(
-            Company::factory()->count(10)->has(
-                Employee::factory()->count(50)
-            )
-        )->create();                        // 10 companies with 50 employees each
+//        User::factory(20)->admin()->create();
+//
+//        User::factory(10)->company()->has(
+//            Company::factory()->count(10)->has(
+//                Employee::factory()->count(50)
+//            )
+//        )->create();                        // 10 companies with 50 employees each
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SuperAdmin\AdminController;
-use App\Http\Controllers\SuperAdmin\DashboardController;
 
 Route::get('/dashboard', DashboardController::class)->name('dashboard');
 

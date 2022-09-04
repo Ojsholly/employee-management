@@ -63,8 +63,8 @@
                                 </div>
                             </div>
                             <div class="profile-meta text-center pt-25">
-{{--                                <h5 class="text-bold mb-10">{{ $company->name }}</h5>--}}
-                                <p class="text-sm">Web & UI/UX Design</p>
+                                <h5 class="text-bold mb-10">{{ $company->name }}</h5>
+{{--                                <p class="text-sm">Web & UI/UX Design</p>--}}
                             </div>
                         </div>
                         <div class="client-info">
