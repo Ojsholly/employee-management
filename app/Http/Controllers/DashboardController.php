@@ -40,7 +40,7 @@ class DashboardController extends Controller
         }
 
         if(auth()->user()->isEmployee()){
-            $company = $employeeService->getEmployee(auth()->user()->company->uuid);
+            $company = $companyService->getCompany(auth()->user()->employee->company->uuid);
 
             return view('dashboard', compact('company'));
         }

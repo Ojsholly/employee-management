@@ -149,7 +149,8 @@
                             </div>
                             <div class="profile-meta text-center pt-25">
                                 <h5 class="text-bold mb-10">{{ $company->name }}</h5>
-{{--                                <p class="text-sm">Web & UI/UX Design</p>--}}
+                                <p class="text-md"><a target="_blank" rel="nofollow noreferrer" href="{{ $company->website }}"></a>/p>
+                                <p class="text-sm"><a href="mailto:{{ $company->email }}">{{ $company->email }}</a></p>
                             </div>
                         </div>
                         <div class="client-info">
@@ -305,6 +306,141 @@
                         @endif
                     </div>
                     <!-- end card -->
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </section>
+    <!-- ========== section end ========== -->
+    @endrole
+
+    @role('employee')
+    <!-- ========== section start ========== -->
+    <section class="section">
+        <div class="container-fluid">
+            <!-- ========== title-wrapper start ========== -->
+            <div class="title-wrapper pt-30">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <div class="title mb-30">
+                            <h2>Employee Company Profile</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- ========== title-wrapper end ========== -->
+
+            <div class="row">
+                <div class="col-xxl-9 col-lg-8">
+                    <div class="client-profile-wrapper mb-30">
+                        <div class="client-cover">
+                            <img
+                                src="{{ asset('assets/images/clients/clients-cover.jpg') }}"
+                                alt="cover-image"
+                            />
+                            <div class="update-image">
+                                <input type="file" />
+                                <label for=""
+                                ><i class="lni lni-camera"></i> Edit Cover Photo
+                                </label>
+                            </div>
+                        </div>
+                        <div class="client-profile-photo">
+                            <div class="image">
+                                <img
+                                    src="{{ asset('assets/images/clients/client-profile.png') }}"
+                                    alt="profile"
+                                />
+                                <div class="update-image">
+                                    <input type="file" />
+                                    <label for=""><i class="lni lni-camera"></i></label>
+                                </div>
+                            </div>
+                            <div class="profile-meta text-center pt-25">
+                                <h5 class="text-bold mb-10">{{ $company->name }}</h5>
+                                <p class="text-md"><a target="_blank" rel="nofollow noreferrer" href="{{ $company->website }}">{{ $company->website }}</a></p>
+                                <p class="text-sm"><a href="mailto:{{ $company->email }}">{{ $company->email }}</a></p>
+                            </div>
+                        </div>
+                        <div class="client-info">
+                            <h5 class="text-bold mb-15">About Us</h5>
+                            <p class="text-sm mb-20">
+                                Hello there, I am an expert Web & UI/UX Designer. I am a
+                                full-time Freelancer and my passion is to satisfy my buyers
+                                by giving 100% best quality work. I will Design Landing
+                                page, UI/UX Design, web template design E-mail template
+                                design Flyer Design, All Print Media Design, etc..
+                                <a href="clients.html#0" class="text-medium text-dark">[Read More]</a>
+                            </p>
+
+                            <ul class="socials">
+                                <li>
+                                    <a href="clients.html#0"><i class="lni lni-facebook-filled"></i></a>
+                                </li>
+                                <li>
+                                    <a href="clients.html#0"><i class="lni lni-twitter-filled"></i></a>
+                                </li>
+                                <li>
+                                    <a href="clients.html#0"><i class="lni lni-instagram-filled"></i></a>
+                                </li>
+                                <li>
+                                    <a href="clients.html#0"><i class="lni lni-behance-original"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col -->
+                <div class="col-xxl-3 col-lg-4">
+                    <div class="row">
+                        <div class="col-sm-6 col-lg-12">
+                            <div class="icon-card mb-30">
+                                <div class="icon purple">
+                                    <i class="lni lni-checkmark"></i>
+                                </div>
+                                <div class="content">
+                                    <h6 class="mb-10">New Order</h6>
+                                    <h3 class="text-bold">30</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-12">
+                            <div class="icon-card mb-30">
+                                <div class="icon success">
+                                    <i class="lni lni-checkmark"></i>
+                                </div>
+                                <div class="content">
+                                    <h6 class="mb-10">Completed Orders</h6>
+                                    <h3 class="text-bold">2K+</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-12">
+                            <div class="icon-card mb-30">
+                                <div class="icon primary">
+                                    <i class="lni lni-checkmark"></i>
+                                </div>
+                                <div class="content">
+                                    <h6 class="mb-10">Cancelled Order</h6>
+                                    <h3 class="text-bold">755</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-12">
+                            <div class="icon-card mb-30">
+                                <div class="icon orange">
+                                    <i class="lni lni-star"></i>
+                                </div>
+                                <div class="content">
+                                    <h6 class="mb-10">Positive Rating</h6>
+                                    <h3 class="text-bold">1.2K</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- end col -->
             </div>

@@ -71,7 +71,7 @@ class EmployeeController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
-                $this->employeeService->createEmployee($request->validated() + ['company_id' => request()->route('company'), 'password' => Hash::make($request->password)]);
+                $this->employeeService->createEmployee($request->validated() + ['company_id' => request()->route('company'), 'password' => Hash::make('password')]);
             });
         } catch (Throwable $exception) {
             report($exception);
