@@ -48,7 +48,7 @@
                 </div>
                 <!-- End Col -->
                 @endrole
-                @can('create company account')
+                @can('create company accounts')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="icon-card mb-30">
                             <div class="icon primary">
@@ -63,19 +63,21 @@
                     </div>
                 @endcan
                 <!-- End Col -->
-                <div class="col-xl-3 col-lg-4 col-sm-6">
-                    <div class="icon-card mb-30">
-                        <div class="icon orange">
-                            <i class="lni lni-user"></i>
+                @can('create employee account')
+                    <div class="col-xl-3 col-lg-4 col-sm-6">
+                        <div class="icon-card mb-30">
+                            <div class="icon orange">
+                                <i class="lni lni-user"></i>
+                            </div>
+                            <div class="content">
+                                <h6 class="mb-10">Employees</h6>
+                                <h3 class="text-bold mb-10">{{ data_get($metrics, 'employeeCount') }}</h3>
+                            </div>
                         </div>
-                        <div class="content">
-                            <h6 class="mb-10">Employees</h6>
-                            <h3 class="text-bold mb-10">{{ data_get($metrics, 'employeeCount') }}</h3>
-                        </div>
+                        <!-- End Icon Cart -->
                     </div>
-                    <!-- End Icon Cart -->
-                </div>
-                <!-- End Col -->
+                    <!-- End Col -->
+                @endcan
             </div>
             <!-- End Row -->
         </div>

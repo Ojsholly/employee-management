@@ -51,4 +51,14 @@ class Service
     {
         return User::role('employee')->count();
     }
+
+    public function getMetrics(): array
+    {
+        return [
+            'superAdminCount' => $this->countSuperAdmins(),
+            'adminCount' => $this->countAdmins(),
+            'companyCount' => $this->countCompanies(),
+            'employeeCount' => $this->countEmployees(),
+        ];
+    }
 }

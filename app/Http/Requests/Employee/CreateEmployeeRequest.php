@@ -13,7 +13,7 @@ class CreateEmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('create employee account');
+        return auth()->user()->can('create employee accounts');
     }
 
     /**

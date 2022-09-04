@@ -77,22 +77,22 @@
                                                 </td>
                                                 <td>
                                                     <div class="action">
-                                                        @can('retrieve company account')
+                                                        @can('retrieve company accounts')
                                                             <a href="{{ route(auth()->user()->getRoleNames()->first().'.companies.employees.index', ['company' => $company->uuid]) }}" class="text-success">
                                                                 <i class="lni lni-eye"></i>
                                                             </a>
                                                         @endcan
-                                                        @can('create employee account')
+                                                        @can('create employee accounts')
                                                             <a href="{{ route(auth()->user()->getRoleNames()->first().".companies.employees.create", [$company->uuid]) }}" class="text-success">
                                                                 <i class="lni lni-circle-plus"></i>
                                                             </a>
                                                         @endcan
-                                                        @can('update company account')
+                                                        @can('update company accounts')
                                                             <a href="{{ route(auth()->user()->getRoleNames()->first().".companies.edit", ['company' => $company->uuid]) }}" class="text-warning">
                                                                 <i class="lni lni-pencil"></i>
                                                             </a>
                                                         @endcan
-                                                        @can('delete company account')
+                                                        @can('delete company accounts')
                                                             <button class="text-danger delete" data-id="{{ $company->uuid }}">
                                                                 <i class="lni lni-trash-can"></i>
                                                             </button>
