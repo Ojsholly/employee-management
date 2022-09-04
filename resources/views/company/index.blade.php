@@ -197,12 +197,12 @@
                                             </td>
                                             <td>
                                                 <div class="action">
-                                                    @can('update employee account')
+                                                    @can('update employee accounts')
                                                         <a href="{{ route(auth()->user()->getRoleNames()->first().".companies.employees.edit", ['company' => $company->uuid, 'employee' => $employee->uuid]) }}" class="text-warning">
                                                             <i class="lni lni-pencil"></i>
                                                         </a>
                                                     @endcan
-                                                    @can('delete employee account')
+                                                    @can('delete employee accounts')
                                                         <button class="text-danger delete" data-id="{{ $employee->uuid }}">
                                                             <i class="lni lni-trash-can"></i>
                                                         </button>

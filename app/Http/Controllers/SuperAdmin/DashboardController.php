@@ -19,12 +19,7 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request, Service $service): View
     {
-        $metrics = [
-            'superAdminCount' => $service->countSuperAdmins(),
-            'adminCount' => $service->countAdmins(),
-            'companyCount' => $service->countCompanies(),
-            'employeeCount' => $service->countEmployees(),
-        ];
+        $metrics = $service->getMetrics();
 
         return view('dashboard', compact('metrics'));
     }

@@ -63,7 +63,7 @@
                     </div>
                 @endcan
                 <!-- End Col -->
-                @can('create employee account')
+                @can('create employee accounts')
                     <div class="col-xl-3 col-lg-4 col-sm-6">
                         <div class="icon-card mb-30">
                             <div class="icon orange">
