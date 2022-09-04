@@ -3,18 +3,29 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Services\Service;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Service $service
+     * @return View
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, Service $service): View
     {
-        return view('super-admin.dashboard');
+        $metrics = [
+            'superAdminCount' => $service->countSuperAdmins(),
+            'adminCount' => $service->countAdmins(),
+            'companyCount' => $service->countCompanies(),
+            'employeeCount' => $service->countEmployees(),
+        ];
+
+        return view('dashboard', compact('metrics'));
     }
 }
