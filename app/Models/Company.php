@@ -21,9 +21,11 @@ class Company extends Model
         'user',
     ];
 
+    protected $withCount = ['employees'];
+
     protected static function booted()
     {
-        static::deleted(function (Company $company) {
+        static::softDeleted(function (Company $company) {
             $company->user?->delete();
         });
     }

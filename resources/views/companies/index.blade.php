@@ -45,6 +45,7 @@
                                             <th class="lead-email"><h6>Name</h6></th>
                                             <th class="lead-email"><h6>Email</h6></th>
                                             <th class="lead-email"><h6>Website</h6></th>
+                                            <th class="lead-email"><h6>Employee Count</h6></th>
                                             <th class="lead-email"><h6>Date Added</h6></th>
                                             <th><h6>Action</h6></th>
                                         </tr>
@@ -67,6 +68,9 @@
                                                 </td>
                                                 <td class="min-width">
                                                     <p><a href="{{ $company->website }}" target="_blank" rel="noreferrer  nofollow">{{ $company->website }}</a></p>
+                                                </td>
+                                                <td>
+                                                    <p>{{ $company->employees_count }}</p>
                                                 </td>
                                                 <td class="min-width">
                                                     <p>{{ $company->created_at->toDayDateTimeString() }}</p>
