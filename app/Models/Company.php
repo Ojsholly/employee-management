@@ -27,6 +27,7 @@ class Company extends Model
     {
         static::softDeleted(function (Company $company) {
             $company->user?->delete();
+            $company->employees()->delete();
         });
     }
 

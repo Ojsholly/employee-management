@@ -15,7 +15,7 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('update company account');
+        return auth()->user()->can('update company accounts');
     }
 
     /**

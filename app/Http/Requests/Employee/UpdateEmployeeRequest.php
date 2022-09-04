@@ -15,7 +15,7 @@ class UpdateEmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->can('update employee account');
+        return auth()->user()->can('update employee accounts');
     }
 
     /**
