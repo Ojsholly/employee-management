@@ -23,6 +23,11 @@ class CompanyTest extends TestCase
         return User::where('username', 'Ojsholly')->first();
     }
 
+    public function admin(): User
+    {
+        return User::factory()->admin()->create();
+    }
+
     public function test_only_super_admin_and_admin_can_access_company_index_page()
     {
         $superAdmin = $this->superAdmin();
@@ -109,5 +114,53 @@ class CompanyTest extends TestCase
         $user->assignRole('company');
 
         $this->actingAs($superAdmin)->get(route('super-admin.companies.show', ['company' => $user->company->uuid]))->assertOk();
+    }
+
+    public function test_admin_can_create_company()
+    {
+        $this->withoutExceptionHandling();
+
+        $admin = $this->admin();
+        $companyCount = User::role('company')->count();
+
+        $company = [
+            'name' => fake()->unique(true)->company.' '.fake()->unique(true)->companySuffix.Str::random(),
+            'email' => fake()->unique(true)->companyEmail.Str::random(),
+            'website' => fake()->unique(true)->url().'/'.Str::random(),
+            'username' => fake()->unique(true)->userName.Str::random(),
+        ];
+
+        $this->actingAs($admin)->post(route('admin.companies.store'), $company)
+            ->assertStatus(302)->assertSessionHas('success', 'Company account created successfully');
+
+        $this->assertEquals($companyCount + 1, User::role('company')->count());
+
+        $this->assertDatabaseHas('companies', collect($company)->except('username')->toArray());
+
+        $this->assertDatabaseHas('users', collect($company)->only('username')->toArray());
+    }
+
+    public function test_company_can_login()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::factory()->company()->create();
+       $company = $user->company()->save(Company::factory()->make());
+
+        $this->post(route('verify-credentials'), [
+            'identifier' => $user->username,
+            'password' => 'password',
+        ])->assertRedirect();
+    }
+
+    public function test_company_can_not_login_with_wrong_credentials()
+    {
+        $user = User::factory()->company()->create();
+        $company = $user->company()->save(Company::factory()->make());
+
+        $this->post(route('verify-credentials'), [
+            'identifier' => $user->username,
+            'password' => 'wrong-password',
+        ])->assertSessionHas('error');
     }
 }
