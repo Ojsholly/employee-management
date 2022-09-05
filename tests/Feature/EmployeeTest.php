@@ -3,12 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Company;
-use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class EmployeeTest extends TestCase
@@ -45,7 +41,8 @@ class EmployeeTest extends TestCase
     {
         $superAdmin = $this->superAdmin();
 
-        $company = User::factory()->create();$this->company();
+        $company = User::factory()->create();
+        $this->company();
         $companyDetails = $company->company()->save(Company::factory()->make());
 
         $this->actingAs($superAdmin)->get(route('super-admin.companies.employees.index', ['company' => $companyDetails->uuid]))->assertOk();
@@ -69,7 +66,7 @@ class EmployeeTest extends TestCase
         $employee = $this->employee();
         $this->post(route('verify-credentials'), [
             'identifier' => $employee->username,
-            'password' => 'password'
+            'password' => 'password',
         ])->assertRedirect();
     }
 
@@ -78,7 +75,7 @@ class EmployeeTest extends TestCase
         $employee = $this->employee();
         $this->post(route('verify-credentials'), [
             'identifier' => $employee->username,
-            'password' => 'wrong-password'
+            'password' => 'wrong-password',
         ])->assertSessionHas('error');
     }
 }

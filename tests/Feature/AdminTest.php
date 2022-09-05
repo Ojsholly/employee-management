@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
@@ -100,10 +98,10 @@ class AdminTest extends TestCase
 
         $user = User::factory()->company()->create();
         $company = $user->company()->create([
-           'name' => fake()->company." ".fake()->companySuffix,
-              'email' => fake()->unique(true)->email,
-                'website' => fake()->unique(true)->url,
-                'username' => fake()->unique(true)->userName,
+            'name' => fake()->company.' '.fake()->companySuffix,
+            'email' => fake()->unique(true)->email,
+            'website' => fake()->unique(true)->url,
+            'username' => fake()->unique(true)->userName,
         ]);
 
         $this->actingAs($admin)->get(route('admin.companies.employees.create', ['company' => $company->uuid]))->assertOk();
@@ -114,10 +112,10 @@ class AdminTest extends TestCase
         $admin = $this->admin();
 
         $company = [
-           'name' => fake()->company." ".fake()->companySuffix,
-              'email' => fake()->unique(true)->email,
-                'website' => fake()->unique(true)->url,
-                'username' => fake()->unique(true)->userName,
+            'name' => fake()->company.' '.fake()->companySuffix,
+            'email' => fake()->unique(true)->email,
+            'website' => fake()->unique(true)->url,
+            'username' => fake()->unique(true)->userName,
         ];
 
         $this->actingAs($admin)->post(route('admin.companies.store'), [
@@ -134,10 +132,10 @@ class AdminTest extends TestCase
 
         $user = User::factory()->company()->create();
         $company = $user->company()->create([
-           'name' => fake()->company." ".fake()->companySuffix,
-              'email' => fake()->unique(true)->email,
-                'website' => fake()->unique(true)->url,
-                'username' => fake()->unique(true)->userName,
+            'name' => fake()->company.' '.fake()->companySuffix,
+            'email' => fake()->unique(true)->email,
+            'website' => fake()->unique(true)->url,
+            'username' => fake()->unique(true)->userName,
         ]);
 
         $data = [
@@ -152,6 +150,4 @@ class AdminTest extends TestCase
         $this->actingAs($admin)->post(route('admin.companies.employees.store', ['company' => $company->uuid]), $data)
             ->assertRedirect()->assertSessionHas('success', 'Employee '.$data['first_name'].' '.$data['last_name'].' created successfully.');
     }
-
-
 }

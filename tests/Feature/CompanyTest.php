@@ -145,7 +145,7 @@ class CompanyTest extends TestCase
         $this->withoutExceptionHandling();
 
         $user = User::factory()->company()->create();
-       $company = $user->company()->save(Company::factory()->make());
+        $company = $user->company()->save(Company::factory()->make());
 
         $this->post(route('verify-credentials'), [
             'identifier' => $user->username,
