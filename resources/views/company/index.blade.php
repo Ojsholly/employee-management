@@ -64,7 +64,8 @@
                             </div>
                             <div class="profile-meta text-center pt-25">
                                 <h5 class="text-bold mb-10">{{ $company->name }}</h5>
-{{--                                <p class="text-sm">Web & UI/UX Design</p>--}}
+                                <p class="text-md"><a target="_blank" rel="nofollow noreferrer" href="{{ $company->website }}"></a></p>
+                                <p class="text-sm"><a href="mailto:{{ $company->email }}">{{ $company->email }}</a></p>
                             </div>
                         </div>
                         <div class="client-info">
