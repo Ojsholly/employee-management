@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::controller(AuthController::class)->middleware('guest')->group(function () {
     Route::view('login', 'login')->name('login');
