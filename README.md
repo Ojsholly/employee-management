@@ -48,6 +48,14 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
+### Access Application
+
+```bash
+php artisan serve
+```
+
+***Kindly note that the super admin has a login credentials of 'superadmin@admin.com' and 'password'
+
 
 ### Run Tests
 
